@@ -32,6 +32,15 @@ function allow_upload(input) {
 }
 
 /**
+ * Upload max file size bytes
+ * @param  {Input} target input element
+ * @return {number}
+ */
+function upload_max_file_size(input) {
+  return +input.dataset.uploadMaxFileSize || 10737420000;
+}
+
+/**
  * Get files/dirs/both setting from the input's data attributes
  * @param  {Input} input The target input element
  * @return {String}      One of files, dirs, or both
@@ -103,6 +112,7 @@ export function attach_filepickers() {
               target_file_type: allow_selecting_files_folders_or_both(fp_input),
               target_file_pattern: allow_target_file_pattern(fp_input),
               allow_upload: allow_upload(fp_input),
+              upload_max_file_size: upload_max_file_size(fp_input),
             },
           }),
       });

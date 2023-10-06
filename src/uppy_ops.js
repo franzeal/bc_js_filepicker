@@ -11,13 +11,14 @@ export function createUppy(
   onBeforeFileAdded,
   onComplete,
   getParent,
+  maxFileSize,
   dashboardOptions,
 ) {
   let uppy = null;
 
   uppy = new Uppy({
     restrictions: {
-      maxFileSize: 10737420000,
+      maxFileSize,
     },
     onBeforeUpload,
     onBeforeFileAdded,

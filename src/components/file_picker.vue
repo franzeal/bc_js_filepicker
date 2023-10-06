@@ -97,7 +97,7 @@ import { createUppy } from '../uppy_ops.js';
  * Presents a modal to the user allowing them to select files.
  */
 export default {
-  props: ['input', 'fs_favorites', 'show_hidden', 'target_file_type', 'target_file_pattern', 'allow_upload'],
+  props: ['input', 'fs_favorites', 'show_hidden', 'target_file_type', 'target_file_pattern', 'allow_upload', 'upload_max_file_size'],
   data: function() {
     return {
       entriesFilter: null,
@@ -341,7 +341,8 @@ export default {
       () => this.updateUploadEndpoint(),
       (currentFile) => this.validateUpload(currentFile),
       (result) => this.completeUpload(result),
-      () => this.path);
+      () => this.path,
+      this.upload_max_file_size);
   },
   computed: {
     modalId: function() {

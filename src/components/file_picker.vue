@@ -213,7 +213,7 @@ export default {
       return this.is_entry_selectable(currentFile);
     },
     updateUploadEndpoint: function() {
-      const endpoint = location.origin + pathmod.resolve('/pun/sys/dashboard/files/upload');
+      const endpoint = location.origin + pathmod.resolve('/pun/sys/dashboard/files/upload/fs');
       this.uppy.getPlugin('XHRUpload').setOptions({
         endpoint,
       });

@@ -3,7 +3,6 @@
     <button
         type="button"
         class="btn btn-primary"
-        style="margin-top: 15px;"
         v-on:click="visibilityChanged">Select Path
     </button>
     <div :id="modalId" :class="(show) ? 'modal is-active' : 'modal'" tabindex="-1" role="dialog">
@@ -72,6 +71,7 @@
             </div>
           </div>
           <div class="modal-footer">
+            <div v-if="showUpload()" type="button" class="btn btn-primary mr-auto" v-on:click="upload" data-dismiss="modal">Upload</div>
             <div type="button" class="btn btn-primary" v-on:click="save" data-dismiss="modal">Select</div>
             <div type="button" class="btn btn-secondary" v-on:click="cancel" data-dismiss="modal">Close</div>
           </div>
@@ -89,6 +89,7 @@ import {
   list_path,
   set_last_path
 } from '../files_api.js';
+import { createUppy } from '../uppy_ops.js';
 
 /**
  * FilePicker
@@ -96,7 +97,7 @@ import {
  * Presents a modal to the user allowing them to select files.
  */
 export default {
-  props: ['input', 'fs_favorites', 'show_hidden', 'target_file_type', 'target_file_pattern'],
+  props: ['input', 'fs_favorites', 'show_hidden', 'target_file_type', 'target_file_pattern', 'allow_upload'],
   data: function() {
     return {
       entriesFilter: null,
@@ -119,6 +120,9 @@ export default {
     },
     showSpinner: function() {
       return this.fs_entries.length === 0 || this.loading;
+    },
+    showUpload: function() {
+      return !!this.allow_upload;
     },
     showError: function() {
       return !! this.error;
@@ -204,6 +208,28 @@ export default {
 
       this.updateEntries(this.path);
       this.staged_value = this.path;
+    },
+    validateUpload: function(currentFile) {
+      return this.is_entry_selectable(currentFile);
+    },
+    updateUploadEndpoint: function() {
+      const endpoint = location.origin + pathmod.resolve('/pun/sys/dashboard/files/upload');
+      this.uppy.getPlugin('XHRUpload').setOptions({
+        endpoint,
+      });
+    },
+    upload: function() {
+      const uppyDashboard = this.uppy.getPlugin('Dashboard');
+      uppyDashboard.setOptions({
+        fileManagerSelectionType: this.target_file_type?.replace(/^dirs$/, 'folders') ?? 'both'
+      });
+      uppyDashboard.openModal();
+    },
+    completeUpload: function(result) {
+      if (result.successful.length > 0) {
+        this.staged_value = pathmod.resolve(this.path, result.successful[0].name);
+        this.save();
+      }
     },
     save: function() {
       this.path = pathmod.dirname(this.staged_value);
@@ -311,6 +337,11 @@ export default {
   mounted: function() {
     this.path = this.get_current_path();
     this.filter_input = this.$el.querySelector('#' + this.filterId);
+    this.uppy = createUppy(
+      () => this.updateUploadEndpoint(),
+      (currentFile) => this.validateUpload(currentFile),
+      (result) => this.completeUpload(result),
+      () => this.path);
   },
   computed: {
     modalId: function() {

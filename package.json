@@ -10,6 +10,7 @@
     "@babel/preset-env": "^7.11.0",
     "babel-loader": "^8.1.0",
     "css-loader": "^5.2.7",
+    "uppy": "^2.3.3",
     "vue": "^2.6.11",
     "vue-loader": "< 16.0.0",
     "vue-style-loader": "^4.1.2",
@@ -19,8 +20,8 @@
     "webpack-dev-server": "^4.15.1"
   },
   "scripts": {
-    "dev": "NODE_ENV='development' webpack",
-    "build": "webpack",
+    "dev": "NODE_OPTIONS=--openssl-legacy-provider NODE_ENV='development' webpack",
+    "build": "NODE_OPTIONS=--openssl-legacy-provider webpack",
     "watch": "webpack --watch"
   }
 }

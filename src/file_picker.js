@@ -23,6 +23,15 @@ function allow_showing_hidden(input) {
 }
 
 /**
+ * Shall this file picker allow uploads?
+ * @param  {Input} target input element
+ * @return {Boolean}
+ */
+function allow_upload(input) {
+  return input.dataset.allowUpload || false;
+}
+
+/**
  * Get files/dirs/both setting from the input's data attributes
  * @param  {Input} input The target input element
  * @return {String}      One of files, dirs, or both
@@ -73,18 +82,17 @@ function allow_target_file_pattern(input) {
  * File pickers are inputs with a data attribute of filepicker
  */
 export function attach_filepickers() {
-  file_system_favorites().then(favorites => {
+  file_system_favorites().then((favorites) => {
     for (let fp_input of filepicker_inputs()) {
       let fp_id = fp_input.id;
       let sacrificial_div = document.createElement('div');
-      let favorites_from_input = file_system_favorites_from_input_data(
-        fp_input,
-      );
+      let favorites_from_input =
+        file_system_favorites_from_input_data(fp_input);
       fp_input.parentElement.append(sacrificial_div);
 
       let vue = new Vue({
         el: sacrificial_div,
-        render: fn =>
+        render: (fn) =>
           fn(FilePicker, {
             props: {
               input: fp_input,
@@ -94,6 +102,7 @@ export function attach_filepickers() {
               show_hidden: allow_showing_hidden(fp_input),
               target_file_type: allow_selecting_files_folders_or_both(fp_input),
               target_file_pattern: allow_target_file_pattern(fp_input),
+              allow_upload: allow_upload(fp_input),
             },
           }),
       });

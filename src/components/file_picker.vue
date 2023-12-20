@@ -11,7 +11,7 @@
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title">File Select</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close" v-on:click="cancel">
+            <button type="button" class="close" aria-label="Close" v-on:click="cancel">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
@@ -71,9 +71,9 @@
             </div>
           </div>
           <div class="modal-footer">
-            <div v-if="showUpload()" type="button" class="btn btn-primary mr-auto" v-on:click="upload" data-dismiss="modal">Upload</div>
-            <div type="button" class="btn btn-primary" v-on:click="save" data-dismiss="modal">Select</div>
-            <div type="button" class="btn btn-secondary" v-on:click="cancel" data-dismiss="modal">Close</div>
+            <div v-if="showUpload()" type="button" class="btn btn-primary mr-auto" v-on:click="upload">Upload</div>
+            <div type="button" class="btn btn-primary" v-on:click="save">Select</div>
+            <div type="button" class="btn btn-secondary" v-on:click="cancel">Close</div>
           </div>
         </div>
       </div>

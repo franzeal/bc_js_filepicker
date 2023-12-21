@@ -63,5 +63,5 @@ export function createUppy(
 
 function closeAndResetUppyModal(uppy) {
   uppy.getPlugin('Dashboard').closeModal();
-  uppy.reset();
+  uppy.cancelAll();
 }

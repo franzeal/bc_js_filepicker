@@ -83,7 +83,6 @@
 
 <script>
 import * as pathmod from 'path-browserify';
-import Vue from 'vue';
 import {
   last_path,
   list_path,

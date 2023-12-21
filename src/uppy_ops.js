@@ -14,6 +14,8 @@ export function createUppy(
   maxFileSize,
   dashboardOptions,
 ) {
+  document.querySelector('.uppy-Root')?.remove();
+
   let uppy = null;
 
   uppy = new Uppy({
@@ -34,6 +36,7 @@ export function createUppy(
     onRequestCloseModal: () => closeAndResetUppyModal(uppy),
     ...dashboardOptions,
   });
+
   uppy.use(XHRUpload, {
     withCredentials: true,
     fieldName: 'file',

@@ -93,7 +93,6 @@ function allow_target_file_pattern(input) {
 export function attach_filepickers() {
   file_system_favorites().then((favorites) => {
     for (let fp_input of filepicker_inputs()) {
-      let fp_id = fp_input.id;
       let sacrificial_div = document.createElement('div');
       let favorites_from_input =
         file_system_favorites_from_input_data(fp_input);
